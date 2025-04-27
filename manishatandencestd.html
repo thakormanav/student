@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User - View Attendance</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, rgb(9, 9, 80));
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .attendance-list {
+      max-width: 800px;
+      width: 100%;
+      margin: auto;
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .attendance-item {
+      background-color: #fff;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.1rem;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .attendance-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .attendance-item span {
+      font-size: 1.1rem;
+      color: #34495e;
+    }
+
+    .attendance-status {
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+
+    .present {
+      background-color: #27ae60;
+      color: white;
+    }
+
+    .absent {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    /* Mobile-responsive design */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .attendance-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>View Attendance</h1>
+
+  <div class="attendance-list" id="attendanceList">
+    <!-- Attendance list will appear here -->
+  </div>
+
+  <script>
+    const attendanceList = document.getElementById('attendanceList');
+
+    function getAttendance() {
+      return JSON.parse(localStorage.getItem('attendance')) || [];
+    }
+
+    function displayAttendance() {
+      const attendance = getAttendance();
+      attendanceList.innerHTML = '';
+      attendance.forEach(entry => {
+        const div = document.createElement('div');
+        div.className = 'attendance-item';
+        div.innerHTML = `
+          <span>${entry.date}</span>
+          <span class="attendance-status ${entry.status.toLowerCase()}">${entry.status}</span>
+        `;
+        attendanceList.appendChild(div);
+      });
+    }
+
+    displayAttendance();
+  </script>
+
+</body>
+</html>

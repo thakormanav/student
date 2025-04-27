@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student - View Faculty List</title>
+  <style>
+    /* Global Styles */
+    body {
+      background: linear-gradient(135deg, #1e1e1e, #3e3e3e);
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-attachment: fixed;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 40px;
+      background: linear-gradient(90deg, #ff8a00, #e52e71);
+      -webkit-background-clip: text;
+      color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .faculty-list {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .faculty {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 20px;
+      width: 300px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.4s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .faculty::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(120deg, #ff8a00, #e52e71, #9b00e8, #00c6ff);
+      background-size: 400% 400%;
+      z-index: 0;
+      animation: animateBorder 8s linear infinite;
+      opacity: 0.4;
+    }
+
+    @keyframes animateBorder {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .faculty img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      margin-bottom: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
+
+    .faculty-info {
+      z-index: 1;
+    }
+
+    .faculty-info strong {
+      display: block;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+
+    .faculty-info small {
+      display: block;
+      font-size: 0.95rem;
+      color: #cccccc;
+      margin: 2px 0;
+    }
+
+    .faculty:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .link-to-admin {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(45deg, #ff8a00, #e52e71);
+      padding: 12px 24px;
+      border-radius: 50px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      transition: background 0.4s, transform 0.3s;
+      z-index: 1000;
+      letter-spacing: 1px;
+    }
+
+    .link-to-admin:hover {
+      background: linear-gradient(45deg, #e52e71, #ff8a00);
+      transform: scale(1.05);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .faculty {
+        width: 90%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .link-to-admin {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Student Panel - Faculty List</h1>
+
+  <a class="link-to-admin" href="admin.html">Go to Admin Panel</a>
+
+  <div class="faculty-list" id="facultyList">
+    <!-- Faculty list will appear here -->
+  </div>
+
+  <script>
+    const facultyList = document.getElementById('facultyList');
+
+    function getFaculties() {
+      return JSON.parse(localStorage.getItem('faculties')) || [];
+    }
+
+    function displayFaculties() {
+      facultyList.innerHTML = '';
+      const faculties = getFaculties();
+      faculties.forEach((faculty) => {
+        const div = document.createElement('div');
+        div.className = 'faculty';
+        div.innerHTML = `
+          <img src="${faculty.image}" alt="Faculty Image">
+          <div class="faculty-info">
+            <strong>${faculty.name}</strong>
+            <small>Subject: ${faculty.subject}</small>
+            <small>Experience: ${faculty.experience} Years</small>
+            <small>Mobile: ${faculty.mobile}</small>
+          </div>
+        `;
+        facultyList.appendChild(div);
+      });
+    }
+
+    displayFaculties();
+  </script>
+
+</body>
+</html>
